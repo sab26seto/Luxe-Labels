@@ -97,14 +97,14 @@ export const products = [
     category: "Little Dog",
     price: 370,
     image: cuddling_toy_dog, 
-    description: "Little Dog cuddling with a toy. For those who love both dogs and toys.",
+    description: "Little Dog cuddling with his favourite toy. For those who love dogs and cuddles.",
   },
   {    id: 11,
     name: "Playing Dead Dog",
     category: "Little Dog",
     price: 400,
     image: playing_dead_dog,
-    description: "Little Dog playing dead. For those who love dogs and a good joke.",
+    description: "Little Dog is a phenomenal actor. How to tell if he's playing dead? You can't!",
   } ,
   {
     id: 12,
@@ -112,7 +112,7 @@ export const products = [
     category: "Little Dog",
     price: 360,
     image: standing_dog,
-    description: "Little Dog standing tall. For those who love dogs and a good pose.", 
+    description: "Little Dog standing tall on his little legs. Strike a pose with this sticker.", 
   },
   {
     id:13,
@@ -120,7 +120,7 @@ export const products = [
     category: "Pepe",
     price: 200,
     image: pepe,
-    description: "The classic Pepe meme. Perfect for any meme lover's collection.",
+    description: "The classic Pepe meme. A staple for any meme lover's collection.",
   },
   {    id: 14,
     name: "Crying Pepe",
@@ -159,6 +159,6 @@ export const products = [
     category: "Pepe",
     price: 260,
     image: smug_pepe,
-    description: "For when you know you're right. The ultimate smug expression in meme form.",
+    description: "For when you know you're right. The ultimate smug expression in meme form as a sticker.",
   }
 ]; 
