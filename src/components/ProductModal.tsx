@@ -40,9 +40,11 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.5, ease: 'easeInOut' }}
             className="fixed inset-4 z-50 flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
+             onClick={onClose}
           >
-            <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}>
+               
               <div className="flex flex-col lg:flex-row">
                 {/* Image Section */}
                 <motion.div 
@@ -98,13 +100,13 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
                   </motion.div>
                   
                   <motion.button
-                    whileHover={{ scale: 1.02, backgroundColor: '#fbbf24', color: '#000' }}
+                    whileHover={{ scale: 1.02, backgroundColor: '#fbbf24', color: '#000'}}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => onAddToCart(product)}
                     className="w-full py-4 px-8 bg-black text-white font-medium text-base tracking-wide rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7, duration: 0.6, ease: 'easeInOut' }}
+                    transition={{ delay: 0.4, duration: 0.6, ease: 'easeInOut' }}
                   >
                     Add to Cart
                   </motion.button>
@@ -114,7 +116,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
               {/* Close Button */}
               <motion.button
                 onClick={onClose}
-                className="absolute top-6 right-6 w-10 h-10 rounded-full bg-black bg-opacity-10 hover:bg-opacity-20 flex items-center justify-center transition-all duration-300"
+                className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black bg-opacity-10 hover:bg-opacity-20 flex items-center justify-center transition-all duration-300"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 initial={{ opacity: 0, scale: 0.8 }}

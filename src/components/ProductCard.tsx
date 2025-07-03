@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 interface ProductCardProps {
   id: number;
   name: string;
+  category: string;
   price: number;
   image: string;
   onClick: () => void;

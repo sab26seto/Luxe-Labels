@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import './index.css';
 import ProductCard from './components/ProductCard';
@@ -43,6 +43,7 @@ const Navbar: React.FC<{ onCartClick: () => void; cartItemCount: number }> = ({ 
     </motion.nav>
   );
 };
+
 
 const Hero: React.FC<{ onShopClick: () => void }> = ({ onShopClick }) => {
   return (
@@ -98,6 +99,12 @@ const Hero: React.FC<{ onShopClick: () => void }> = ({ onShopClick }) => {
 const App: React.FC = () => {
   const marketplaceRef = useRef<HTMLDivElement>(null);
   
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+
+const filteredStickers = activeCategory === "All"
+  ? products
+  : products.filter(products => products.category === activeCategory);
+
   // State management
   const [selectedProduct, setSelectedProduct] = React.useState<number | null>(null);
   const [isCartOpen, setIsCartOpen] = React.useState(false);
@@ -158,8 +165,25 @@ const App: React.FC = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-medium text-black mb-4 tracking-tight">Our Collection</h2>
-            <p className="text-base text-darkgray opacity-70 font-light">Handcrafted luxury for the modern collector</p>
+            <p className="text-base text-darkgray opacity-70 font-light">Exclusive handcrafted luxury collections for the modern collector</p>
           </motion.div>
+          <div className="flex gap-4 mb-6">
+          {["All", "Little Dog", "Minecraft"].map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`px-4 py-2 rounded-full border transition-all duration-300 ${
+                activeCategory === category
+                  ? "bg-black text-white"
+                  : "bg-white text-black border-gray-300"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
+
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 w-full max-w-6xl"
             initial="hidden"
@@ -169,7 +193,7 @@ const App: React.FC = () => {
               hidden: {},
             }}
           >
-            {products.map((product, i) => (
+            {filteredStickers.map((product) => (
               <ProductCard
                 key={product.id}
                 {...product}
