@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import './index.css';
 import ProductCard from './components/ProductCard';
 import ProductModal from './components/ProductModal';
@@ -8,7 +8,7 @@ import { products } from './products.js';
 
 const NAVBAR_HEIGHT = 72;
 
-const Navbar: React.FC<{ onCartClick: () => void; cartItemCount: number }> = ({ onCartClick, cartItemCount }) => {
+const Navbar: React.FC<{ onCartClick: () => void; cartItemCount: number; showPromo: boolean }> = ({ onCartClick, cartItemCount, showPromo }) => {
   const [scrolled, setScrolled] = React.useState(false);
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -18,9 +18,9 @@ const Navbar: React.FC<{ onCartClick: () => void; cartItemCount: number }> = ({ 
   return (
     <motion.nav
       initial={{ backgroundColor: 'rgba(255,255,255,0.8)' }}
-      animate={{ backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.8)' }}
+      animate={{  top: showPromo ? '3rem' : '0rem', backgroundColor: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.8)' }}
       transition={{ duration: 0.4, ease: 'easeInOut' }}
-      className={`fixed top-0 left-0 w-full z-30 flex items-center justify-between px-8 py-4 h-[${NAVBAR_HEIGHT}px]`}
+      className={`fixed ${showPromo ? 'top-12' : 'top-0'} left-0 w-full z-30 flex items-center justify-between px-8 py-4 h-[${NAVBAR_HEIGHT}px]`}
       style={{ backdropFilter: scrolled ? 'blur(12px)' : 'blur(8px)' }}
     >
       <span className="text-xl font-medium tracking-wide text-black">Luxe Labels</span>
@@ -99,6 +99,8 @@ const Hero: React.FC<{ onShopClick: () => void }> = ({ onShopClick }) => {
 const App: React.FC = () => {
   const marketplaceRef = useRef<HTMLDivElement>(null);
   
+  const [showPromo, setShowPromo] = useState(true);
+
   const [activeCategory, setActiveCategory] = useState<string>("All");
 
 const filteredStickers = activeCategory === "All"
@@ -154,8 +156,31 @@ const filteredStickers = activeCategory === "All"
   };
   return (
     <div className="min-h-screen bg-offwhite font-sans">
-      <Navbar onCartClick={handleCartClick} cartItemCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} />
-      <main className="pt-20">
+      
+       <AnimatePresence>
+      {showPromo && (
+        <motion.div
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -100, opacity: 0 }}
+      transition={{ duration: 0.4 }}
+      className="fixed top-0 left-0 w-full z-50 bg-gold text-black text-sm md:text-base font-medium py-4 px-6 flex items-center justify-between shadow-md"
+      >
+        <span>Exclusive Offer: Get <strong>3% </strong>off the 5th sticker with the purchase of 4 stickers!</span>
+        <button
+          onClick={() => setShowPromo(false)}
+          className="ml-4 text-black hover:text-gray-800 focus:outline-none"
+          aria-label="Close promotion banner"  
+        >
+            ✕
+          </button>
+          </motion.div>
+      )}
+      </AnimatePresence>
+      
+
+      <Navbar onCartClick={handleCartClick} cartItemCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} showPromo={showPromo} />
+      <main className="pt-[120px]">
         <Hero onShopClick={handleShopClick} />
         <div ref={marketplaceRef} className="min-h-[80vh] flex flex-col items-center justify-center w-full px-4 py-20">
           <motion.div
