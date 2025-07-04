@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -40,9 +40,27 @@ const Navbar: React.FC = () => (
 );
 
 const AboutPage: React.FC = () => {
+  // Review form state
+  const [name, setName] = useState('');
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
+  const[hover, setHover] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newReview = { name, rating, comment };
+    setSubmitted(true);
+    setName('');
+    setRating(5);
+    setComment('');
+  };
+
   return (
     <div className="min-h-screen bg-offwhite flex flex-col items-center justify-start pt-32 px-4 overflow-x-hidden">
       <Navbar />
+
       {/* Backstory Section */}
       <motion.section
         initial={{ opacity: 0, y: 60 }}
@@ -71,12 +89,13 @@ const AboutPage: React.FC = () => {
             again.
           </div>
           <div className="text-base text-darkgray mb-4">
-            Each sticker is a chapter in our story. Each one a mark of pain, hope, or rebellion. The nucleus of Luxe Labels is not just art, it's survival. Our emblem is a promise: to face the world, to help each other rise, to make beauty out of what hurts.<br /><br />
-            We are a community of the lost and the found, the ones who want to leave a mark. Every sticker is a secret, a memory, a rebellion. Every collection is limited. Every label is a piece of us, and maybe you.<br /><br />
+            Each sticker is a chapter in our story. Each one a mark of pain, hope, or rebellion...
+            <br /><br />
             AGAINST ALL ODDS. It's us - Luxe Labels {"<"}3
           </div>
         </motion.div>
       </motion.section>
+
       {/* Infinite Marquee Testimonials */}
       <motion.section
         initial={{ opacity: 0, y: 60 }}
@@ -114,7 +133,8 @@ const AboutPage: React.FC = () => {
           }
         `}</style>
       </motion.section>
-      {/* Creators Section */}
+
+      {/* Creators */}
       <motion.section
         initial={{ opacity: 0, y: 60 }}
         animate={{ opacity: 1, y: 0 }}
@@ -135,8 +155,68 @@ const AboutPage: React.FC = () => {
           </motion.div>
         ))}
       </motion.section>
+
+      {/* Review Section */}
+      <motion.section
+        initial={{ opacity: 0, y: 60 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 1, ease: 'easeInOut' }}
+        className="w-full max-w-3xl mx-auto mb-24 flex flex-col items-center"
+      >
+        <h2 className="text-2xl font-bold text-black mb-6">Share Your Thoughts</h2>
+        {submitted ? (
+  <div className="text-center text-lg text-gold font-medium">
+    Your feedback is greatly appreciated! Thank you for your review.
+  </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col gap-4">
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold"
+            required
+          />
+          <div className="flex items-center space-x-1">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                onClick={() => setRating(star)}
+                onMouseEnter={() => setHover(star)}
+                onMouseLeave={() => setHover(0)}
+                className="focus:outline-none"
+              >
+                <span
+                  className={`text-3xl ${
+                    (hover || rating) >= star ? 'text-gold' : 'text-gray-300'
+                  }`}
+                >
+                  ★
+                </span>
+              </button>
+            ))}
+          </div>
+          <textarea
+            placeholder="Your Review"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold h-32 resize-none"
+            required
+          />
+          <button
+            type="submit"
+            className="bg-gold text-black font-medium py-3 rounded-lg hover:bg-yellow-400 transition-colors duration-200"
+          >
+            Submit Review
+          </button>
+        </form>
+      )}
+
+      </motion.section>
     </div>
   );
 };
 
-export default AboutPage; 
+export default AboutPage;

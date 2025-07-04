@@ -160,7 +160,7 @@ const filteredStickers = activeCategory === "All"
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
   return (
-    <Router>
+    
       <Routes>
         <Route path="/about" element={<AboutPage />} />
         <Route path="/" element={
@@ -202,7 +202,7 @@ const filteredStickers = activeCategory === "All"
                   <p className="text-base text-darkgray opacity-70 font-light">Exclusive handcrafted luxury collections for the modern collector</p>
                 </motion.div>
                 <div className="flex gap-4 mb-6">
-                  {["All", "Little Dog", "Minecraft", "Pepe"].map((category) => (
+                  {["All", "Little Dog", "Minecraft", "Pepe", "Flowers"].map((category) => (
                     <button
                       key={category}
                       onClick={() => setActiveCategory(category)}
@@ -271,7 +271,7 @@ const filteredStickers = activeCategory === "All"
           </div>
         } />
       </Routes>
-    </Router>
+    
   );
 };
 
