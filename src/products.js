@@ -16,6 +16,12 @@ import dripped_pepe from './assets/minecraft/dripped-pepe.jpg';
 import sad_pepe from './assets/minecraft/sad-pepe.jpg';
 import happy_pepe from './assets/minecraft/open-mouth-pepe.jpg';
 import smug_pepe from './assets/minecraft/smug-pepe.jpg';
+import lily_flower from './assets/minecraft/lily-flower.png';
+import bleeding_heart from './assets/minecraft/bleeding-heart-flower.jpg';
+import hibiscus from './assets/minecraft/hibiscus-flower.jpeg';
+import japanese_blossom from './assets/minecraft/japanese-blossom-flower.png';
+import lily_of_the_valley from './assets/minecraft/lily-of-the-valley-flower.jpg';
+import orchid_flower from './assets/minecraft/orchid-flower.png';
 
 export const products = [
   {
@@ -160,5 +166,53 @@ export const products = [
     price: 260,
     image: smug_pepe,
     description: "For when you know you're right. The ultimate smug expression in meme form as a sticker.",
+  },
+  {
+    id: 19,
+    name: "Lily",
+    category: "Flowers",
+    price: 250,
+    image: lily_flower,
+    description: "A beautiful lily flower sticker. Perfect for nature lovers and flower enthusiasts.",
+  },
+  {
+    id: 20,
+    name: "Bleeding Hearts",
+    category: "Flowers",
+    price: 270,
+    image: bleeding_heart,
+    description: "A stunning bleeding heart flower sticker. For those who appreciate unique and beautiful flowers.",
+  },
+  {
+    id: 21,
+    name: "Hibiscus",
+    category: "Flowers",
+    price: 280,
+    image: hibiscus,
+    description: "A vibrant hibiscus flower sticker. Perfect for adding a tropical touch to your collection.",
+  },
+  {
+    id: 22,
+    name: "Japanese Blossom",
+    category: "Flowers",
+    price: 300,
+    image: japanese_blossom,
+    description: "A delicate Japanese blossom sticker. For those who love the beauty of cherry blossoms.",
+  },
+  {
+    id: 23,
+    name: "Lily of the Valley",
+    category: "Flowers",
+    price: 260,
+    image: lily_of_the_valley,
+    description: "A charming lily of the valley flower sticker. Perfect for adding elegance to your collection.",
+  },
+  {
+    id: 24,
+    name: "Orchid",
+    category: "Flowers",
+    price: 320,
+    image: orchid_flower,
+    description: "An exotic orchid flower sticker. For those who appreciate the beauty of rare flowers.",
   }
 ]; 
