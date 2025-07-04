@@ -220,7 +220,7 @@ const filteredStickers = activeCategory === "All"
                       {category === "Little Dog" && (
                         <motion.div
                           animate={{ scale: [1, 1.18, 1], rotate: [-12, 12, -12] }}
-                          transition={{ duration: 999, repeat: Infinity, ease: 'easeInOut' }}
+                          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
                           className={`absolute -top-1 -right-1 text-xs font-bold ${activeCategory === "Little Dog" ? 'text-black' : 'text-gold'}`}
                           style={{ display: 'inline-block' }}
                         >
