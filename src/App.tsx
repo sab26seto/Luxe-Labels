@@ -5,6 +5,8 @@ import ProductCard from './components/ProductCard';
 import ProductModal from './components/ProductModal';
 import Cart from './components/Cart';
 import { products } from './products.js';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import AboutPage from './components/AboutPage';
 
 const NAVBAR_HEIGHT = 72;
 
@@ -23,8 +25,11 @@ const Navbar: React.FC<{ onCartClick: () => void; cartItemCount: number; showPro
       className={`fixed ${showPromo ? 'top-12' : 'top-0'} left-0 w-full z-30 flex items-center justify-between px-8 py-4 h-[${NAVBAR_HEIGHT}px]`}
       style={{ backdropFilter: scrolled ? 'blur(12px)' : 'blur(8px)' }}
     >
-      <span className="text-xl font-medium tracking-wide text-black">Luxe Labels</span>
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-2">
+        <Link to="/" className="text-xl font-sans font-bold tracking-wide text-black rounded-lg px-4 py-2 hover:bg-gold hover:text-black transition-colors duration-200">Luxe Labels</Link>
+        <Link to="/about" className="text-black text-base font-medium rounded-full px-6 py-2 hover:bg-gold hover:text-black transition-colors duration-200">About</Link>
+      </div>
+      <div className="flex items-center gap-4">
         <button
           aria-label="Cart"
           onClick={onCartClick}
@@ -155,97 +160,118 @@ const filteredStickers = activeCategory === "All"
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
   return (
-    <div className="min-h-screen bg-offwhite font-sans">
-      
-       <AnimatePresence>
-      {showPromo && (
-        <motion.div
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: -100, opacity: 0 }}
-      transition={{ duration: 0.4 }}
-      className="fixed top-0 left-0 w-full z-50 bg-gold text-black text-sm md:text-base font-medium py-4 px-6 flex items-center justify-between shadow-md"
-      >
-        <span>Exclusive Offer: Get <strong>3% </strong>off the 5th sticker with the purchase of 4 stickers!</span>
-        <button
-          onClick={() => setShowPromo(false)}
-          className="ml-4 text-black hover:text-gray-800 focus:outline-none"
-          aria-label="Close promotion banner"  
-        >
-            ✕
-          </button>
-          </motion.div>
-      )}
-      </AnimatePresence>
-      
+    <Router>
+      <Routes>
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/" element={
+          <div className="min-h-screen bg-offwhite font-sans">
+            
+            <AnimatePresence>
+              {showPromo && (
+                <motion.div
+                  initial={{ y: -100, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -100, opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="fixed top-0 left-0 w-full z-50 bg-gold text-black text-sm md:text-base font-medium py-4 px-6 flex items-center justify-between shadow-md"
+                >
+                  <span>Exclusive Offer: Get <strong>3% </strong>off the 5th sticker with the purchase of 4 stickers!</span>
+                  <button
+                    onClick={() => setShowPromo(false)}
+                    className="ml-4 text-black hover:text-gray-800 focus:outline-none"
+                    aria-label="Close promotion banner"  
+                  >
+                      ✕
+                    </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            
 
-      <Navbar onCartClick={handleCartClick} cartItemCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} showPromo={showPromo} />
-      <main className="pt-[120px]">
-        <Hero onShopClick={handleShopClick} />
-        <div ref={marketplaceRef} className="min-h-[80vh] flex flex-col items-center justify-center w-full px-4 py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeInOut' }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-medium text-black mb-4 tracking-tight">Our Collection</h2>
-            <p className="text-base text-darkgray opacity-70 font-light">Exclusive handcrafted luxury collections for the modern collector</p>
-          </motion.div>
-          <div className="flex gap-4 mb-6">
-          {["All", "Little Dog", "Minecraft", "Pepe", "Flowers"].map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-4 py-2 rounded-full border transition-all duration-300 ${
-                activeCategory === category
-                  ? "bg-black text-white"
-                  : "bg-white text-black border-gray-300"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
+            <Navbar onCartClick={handleCartClick} cartItemCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} showPromo={showPromo} />
+            <main className="pt-[120px]">
+              <Hero onShopClick={handleShopClick} />
+              <div ref={marketplaceRef} className="min-h-[80vh] flex flex-col items-center justify-center w-full px-4 py-20">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: 'easeInOut' }}
+                  className="text-center mb-16"
+                >
+                  <h2 className="text-3xl md:text-4xl font-medium text-black mb-4 tracking-tight">Our Collection</h2>
+                  <p className="text-base text-darkgray opacity-70 font-light">Exclusive handcrafted luxury collections for the modern collector</p>
+                </motion.div>
+                <div className="flex gap-4 mb-6">
+                  {["All", "Little Dog", "Minecraft", "Pepe"].map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setActiveCategory(category)}
+                      className={`px-4 py-2 rounded-full border transition-all duration-300 relative ${
+                        activeCategory === category
+                          ? category === "Little Dog"
+                            ? "bg-gradient-to-r from-gold via-yellow-400 to-gold text-black border-gold shadow-lg shadow-gold/30 font-medium"
+                            : "bg-black text-white"
+                          : category === "Little Dog"
+                            ? "bg-gradient-to-r from-gold/20 via-yellow-400/20 to-gold/20 text-black border-gold/50 hover:from-gold/30 hover:via-yellow-400/30 hover:to-gold/30"
+                            : "bg-white text-black border-gray-300"
+                      }`}
+                    >
+                      {category}
+                      {category === "Little Dog" && (
+                        <motion.div
+                          animate={{ scale: [1, 1.18, 1], rotate: [-12, 12, -12] }}
+                          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+                          className={`absolute -top-1 -right-1 text-xs font-bold ${activeCategory === "Little Dog" ? 'text-black' : 'text-gold'}`}
+                          style={{ display: 'inline-block' }}
+                        >
+                          LIMITED
+                        </motion.div>
+                      )}
+                    </button>
+                  ))}
+                </div>
 
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 w-full max-w-6xl"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              visible: { transition: { staggerChildren: 0.13 } },
-              hidden: {},
-            }}
-          >
-            {filteredStickers.map((product) => (
-              <ProductCard
-                key={product.id}
-                {...product}
-                onClick={() => setSelectedProduct(product.id)}
-              />
-            ))}
-          </motion.div>
-        </div>
-      </main>
-      
-      {/* Product Modal */}
-      <ProductModal
-        product={selectedProduct ? products.find(p => p.id === selectedProduct) || null : null}
-        isOpen={!!selectedProduct}
-        onClose={() => setSelectedProduct(null)}
-        onAddToCart={handleAddToCart}
-      />
-      
-      {/* Cart Sidebar */}
-      <Cart
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-      />
-    </div>
+                <motion.div
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 w-full max-w-6xl"
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    visible: { transition: { staggerChildren: 0.13 } },
+                    hidden: {},
+                  }}
+                >
+                  {filteredStickers.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      {...product}
+                      onClick={() => setSelectedProduct(product.id)}
+                    />
+                  ))}
+                </motion.div>
+              </div>
+            </main>
+            
+            {/* Product Modal */}
+            <ProductModal
+              product={selectedProduct ? products.find(p => p.id === selectedProduct) || null : null}
+              isOpen={!!selectedProduct}
+              onClose={() => setSelectedProduct(null)}
+              onAddToCart={handleAddToCart}
+            />
+            
+            {/* Cart Sidebar */}
+            <Cart
+              isOpen={isCartOpen}
+              onClose={() => setIsCartOpen(false)}
+              items={cartItems}
+              onUpdateQuantity={handleUpdateQuantity}
+              onRemoveItem={handleRemoveItem}
+            />
+          </div>
+        } />
+      </Routes>
+    </Router>
   );
 };
 
