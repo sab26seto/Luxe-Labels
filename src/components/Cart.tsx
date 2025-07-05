@@ -15,10 +15,11 @@ interface CartProps {
   items: CartItem[];
   onUpdateQuantity: (id: number, quantity: number) => void;
   onRemoveItem: (id: number) => void;
+  onCheckout: () => void;
 }
 
-const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem }) => {
-  const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, onCheckout }) => {
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <AnimatePresence>
@@ -100,10 +101,10 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, o
                       <div className="w-16 h-16 rounded-xl overflow-hidden bg-white flex-shrink-0">
                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                       </div>
-                                             <div className="flex-1 min-w-0">
-                         <h3 className="font-medium text-black text-base truncate">{item.name}</h3>
-                         <p className="text-darkgray text-sm">${item.price}</p>
-                       </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-black text-base truncate">{item.name}</h3>
+                        <p className="text-darkgray text-sm">${item.price}</p>
+                      </div>
                       <div className="flex items-center gap-2">
                         <motion.button
                           whileHover={{ scale: 1.1 }}
@@ -148,14 +149,15 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, o
                 transition={{ delay: 0.3, duration: 0.4, ease: 'easeInOut' }}
               >
                 <div className="flex justify-between items-center mb-6">
-                  <span className="text-lg font-sans text-darkgray">Total</span>
-                  <span className="text-2xl font-serif text-black">${total}</span>
+                  <span className="text-sm text-darkgray">{totalItems} items in cart</span>
+                  <span className="text-lg font-medium text-black">Ready to checkout</span>
                 </div>
-                                 <motion.button
-                   whileHover={{ scale: 1.02, backgroundColor: '#fbbf24', color: '#000' }}
-                   whileTap={{ scale: 0.98 }}
-                   className="w-full py-4 bg-black text-white font-medium text-base tracking-wide rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl"
-                 >
+                <motion.button
+                  whileHover={{ scale: 1.02, backgroundColor: '#fbbf24', color: '#000' }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={onCheckout}
+                  className="w-full py-4 bg-black text-white font-medium text-base tracking-wide rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl"
+                >
                   Checkout
                 </motion.button>
               </motion.div>

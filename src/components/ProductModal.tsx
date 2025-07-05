@@ -21,6 +21,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
   if (!product) return null;
 
   const isLittleDog = product.category === "Little Dog";
+  const isStitch = product.category === "Stitch";
 
   return (
     <AnimatePresence>
@@ -48,18 +49,21 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
             <div className={`rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden relative ${
               isLittleDog 
                 ? 'bg-gradient-to-br from-gold/30 via-yellow-100/60 to-white/80 backdrop-blur-lg border border-gold/40 shadow-[0_0_80px_10px_rgba(251,191,36,0.35)]' 
-                : 'bg-white shadow-2xl'
+                : isStitch
+                  ? 'bg-gradient-to-br from-blue-500/30 via-blue-200/60 to-white/80 backdrop-blur-lg border border-blue-500/40 shadow-[0_0_80px_10px_rgba(37,99,235,0.35)]'
+                  : 'bg-white shadow-2xl'
             }`}
             onClick={(e) => e.stopPropagation()}>
-              {/* Fire LIMITED tag for Little Dog */}
-              {isLittleDog && (
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 text-xs font-bold text-yellow-400 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] select-none">
-                  LIMITED
+              {/* RARE tag for Stitch */}
+              {isStitch && (
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 text-xs font-bold text-blue-500 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] select-none"
+                  style={{ textShadow: '0 0 6px #fff, 0 0 2px #fff' }}>
+                  RARE
                 </div>
               )}
-              {/* Golden glow overlay for Little Dog */}
-              {isLittleDog && (
-                <div className="pointer-events-none absolute inset-0 z-0 rounded-2xl shadow-[0_0_120px_30px_rgba(251,191,36,0.25)]" />
+              {/* Blue glow overlay for Stitch */}
+              {isStitch && (
+                <div className="pointer-events-none absolute inset-0 z-0 rounded-2xl shadow-[0_0_120px_30px_rgba(37,99,235,0.25)]" />
               )}
 
               <div className="flex flex-col lg:flex-row relative z-10">
@@ -68,14 +72,16 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
                   className={`lg:w-1/2 p-8 flex items-center justify-center ${
                     isLittleDog 
                       ? 'bg-transparent' 
-                      : 'bg-gradient-to-br from-offwhite to-cream'
+                      : isStitch
+                        ? 'bg-transparent'
+                        : 'bg-gradient-to-br from-offwhite to-cream'
                   }`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2, duration: 0.6, ease: 'easeInOut' }}
                 >
-                  <div className={`w-72 h-72 rounded-xl overflow-hidden bg-white shadow-lg ${
-                    isLittleDog ? 'shadow-[0_0_30px_rgba(251,191,36,0.4)]' : ''
+                  <div className={`w-72 h-72 rounded-xl overflow-hidden ${
+                    isLittleDog ? 'bg-white shadow-[0_0_30px_rgba(251,191,36,0.4)]' : isStitch ? 'bg-white shadow-[0_0_30px_rgba(37,99,235,0.18)]' : 'bg-white shadow-lg'
                   }`}>
                     <motion.img
                       src={product.image}
@@ -85,7 +91,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
                       animate={{ scale: 1 }}
                       transition={{ duration: 0.8, ease: 'easeInOut' }}
                       style={{
-                        filter: isLittleDog ? 'drop-shadow(0 8px 16px rgba(251,191,36,0.3))' : undefined
+                        filter: isLittleDog ? 'drop-shadow(0 8px 16px rgba(251,191,36,0.3))' : isStitch ? 'drop-shadow(0 8px 16px rgba(37,99,235,0.18))' : undefined
                       }}
                     />
                   </div>
@@ -93,14 +99,14 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
 
                 {/* Content Section */}
                 <motion.div 
-                  className={`lg:w-1/2 p-8 flex flex-col justify-center ${isLittleDog ? 'bg-transparent' : ''}`}
+                  className={`lg:w-1/2 p-8 flex flex-col justify-center ${isLittleDog ? 'bg-transparent' : isStitch ? 'bg-transparent' : ''}`}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3, duration: 0.6, ease: 'easeInOut' }}
                 >
                   <motion.h2 
                     className={`text-2xl font-medium mb-4 ${
-                      isLittleDog ? 'text-black' : 'text-black'
+                      isLittleDog ? 'text-black' : isStitch ? 'text-black' : 'text-black'
                     }`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -111,7 +117,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
                   
                   <motion.p 
                     className={`text-base mb-6 leading-relaxed font-light ${
-                      isLittleDog ? 'text-darkgray' : 'text-darkgray'
+                      isLittleDog ? 'text-darkgray' : isStitch ? 'text-darkgray' : 'text-darkgray'
                     }`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -122,8 +128,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
                   
                   <motion.div 
                     className={`text-xl font-medium mb-8 ${
-                      isLittleDog ? 'text-yellow-400 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]' : 'text-black'
+                      isLittleDog ? 'text-yellow-400 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]' : isStitch ? 'text-blue-500' : 'text-black'
                     }`}
+                    style={isStitch ? { textShadow: '0 0 6px #fff, 0 0 2px #fff' } : {}}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6, duration: 0.6, ease: 'easeInOut' }}
@@ -134,16 +141,18 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
                   <motion.button
                     whileHover={{ 
                       scale: 1.02, 
-                      backgroundColor: isLittleDog ? '#fbbf24' : '#fbbf24', 
+                      backgroundColor: isLittleDog ? '#fbbf24' : isStitch ? '#fbbf24' : '#fbbf24', 
                       color: '#000',
-                      boxShadow: isLittleDog ? '0 0 30px rgba(251,191,36,0.5)' : undefined
+                      boxShadow: isLittleDog ? '0 0 30px rgba(251,191,36,0.5)' : isStitch ? '0 0 30px rgba(251,191,36,0.5)' : undefined
                     }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => onAddToCart(product)}
                     className={`w-full py-4 px-8 font-medium text-base tracking-wide rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl ${
                       isLittleDog 
                         ? 'bg-black text-white hover:bg-gold hover:text-black' 
-                        : 'bg-black text-white'
+                        : isStitch
+                          ? 'bg-black text-white hover:bg-blue-500 hover:text-black'
+                          : 'bg-black text-white'
                     }`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -160,7 +169,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose, o
                 className={`absolute top-4 right-4 z-50 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                   isLittleDog 
                     ? 'bg-black bg-opacity-10 hover:bg-opacity-20 hover:shadow-[0_0_20px_rgba(251,191,36,0.4)]' 
-                    : 'bg-black bg-opacity-10 hover:bg-opacity-20'
+                    : isStitch
+                      ? 'bg-black bg-opacity-10 hover:bg-opacity-20 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)]'
+                      : 'bg-black bg-opacity-10 hover:bg-opacity-20'
                 }`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}

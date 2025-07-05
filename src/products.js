@@ -22,6 +22,12 @@ import hibiscus from './assets/minecraft/hibiscus-flower.jpeg';
 import japanese_blossom from './assets/minecraft/japanese-blossom-flower.png';
 import lily_of_the_valley from './assets/minecraft/lily-of-the-valley-flower.jpg';
 import orchid_flower from './assets/minecraft/orchid-flower.png';
+import regularstitch from './assets/minecraft/regularstitch.jpg';
+import lovestitch from './assets/minecraft/lovestitch.jpg';
+import handstandstitch from './assets/minecraft/handstandstitch.jpg';
+import guitarstitch from './assets/minecraft/guitarstitch.jpg';
+import sleepystitch from './assets/minecraft/sleepystitch.jpg';
+import stitchhittingglass from './assets/minecraft/stitchhittingglass.jpg';
 
 export const products = [
   {
@@ -214,5 +220,53 @@ export const products = [
     price: 320,
     image: orchid_flower,
     description: "An exotic orchid flower sticker. For those who appreciate the beauty of rare flowers.",
-  }
+  },
+  {
+    id: 1001,
+    name: 'Stitch Classic',
+    category: 'Stitch',
+    price: 2600,
+    image: regularstitch,
+    description: "Stitch in his classic pose, ready for adventure and a little mischief.",
+  },
+  {
+    id: 1002,
+    name: 'Love Stitch',
+    category: 'Stitch',
+    price: 2700,
+    image: lovestitch,
+    description: "Stitch with hearts, spreading love and cuteness everywhere.",
+  },
+  {
+    id: 1003,
+    name: 'Handstand Stitch',
+    category: 'Stitch',
+    price: 2800,
+    image: handstandstitch,
+    description: "Stitch showing off his acrobatic skills with a perfect handstand.",
+  },
+  {
+    id: 1004,
+    name: 'Guitar Stitch',
+    category: 'Stitch',
+    price: 2500,
+    image: guitarstitch,
+    description: "Stitch strumming his guitar, perfect for music and Disney fans.",
+  },
+  {
+    id: 1005,
+    name: 'Sleepy Stitch',
+    category: 'Stitch',
+    price: 2650,
+    image: sleepystitch,
+    description: "A peaceful sleeping Stitch, for those who love cute and cozy vibes.",
+  },
+  {
+    id: 1006,
+    name: 'Stitch Hitting Glass',
+    category: 'Stitch',
+    price: 2900,
+    image: stitchhittingglass,
+    description: "Stitch in full alien mode, pressing up against the glass for a playful look.",
+  },
 ]; 
