@@ -6,7 +6,7 @@ import ProductModal from './components/ProductModal';
 import Cart from './components/Cart';
 import Checkout from './components/Checkout';
 import { products } from './products.js';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { HashRouter, BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AboutPage from './components/AboutPage';
 
 const NAVBAR_HEIGHT = 72;
