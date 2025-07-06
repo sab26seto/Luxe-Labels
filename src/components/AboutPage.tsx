@@ -89,11 +89,16 @@ const AboutPage: React.FC = () => {
             again.
           </div>
           <div className="text-base text-darkgray mb-4">
-            Our stickers are a product of despair, hope, and a little bit of gold. We are Luxe Labels, a brand born from the ashes of our past, where each sticker is a piece of our journey. 
-            Every label is handcrafted using prime materials, designed to be more than just a sticker, but a symbol of our story and yours. Every year, one more collection is added to our legacy, each one a testament to our growth and resilience.
+            Our stickers are a product of despair, hope, and a little bit of gold. We are Luxe Labels, a brand born from a basement growing towards larger things, where each sticker is a piece of our journey. 
+            Every label is handcrafted using prime, ethically sourced materials. Designed to be more than just a sticker, but a symbol of our story and yours. Every year, one more collection is added to our legacy, each one a testament to our growth and resilience.
+            
             <br /><br />
             Each sticker is a chapter in our story. Each one a mark of pain, hope, or rebellion. Every label is a piece of us, and maybe you. - Luxe Labels {"<"}3
           </div>
+          <div className="text-sm text-gold mb-5">
+            Nominated for the 2025 Best Labels Award, and 4 time winner of the Best Sticky Art Award
+            </div>
+          
         </motion.div>
       </motion.section>
 
