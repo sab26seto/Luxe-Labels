@@ -89,9 +89,10 @@ const AboutPage: React.FC = () => {
             again.
           </div>
           <div className="text-base text-darkgray mb-4">
-            Each sticker is a chapter in our story. Each one a mark of pain, hope, or rebellion. Every label is a piece of us, and maybe you.
+            Our stickers are a product of despair, hope, and a little bit of gold. We are Luxe Labels, a brand born from the ashes of our past, where each sticker is a piece of our journey. 
+            Every label is handcrafted using prime materials, designed to be more than just a sticker, but a symbol of our story and yours. Every year, one more collection is added to our legacy, each one a testament to our growth and resilience.
             <br /><br />
-            AGAINST ALL ODDS. - Luxe Labels {"<"}3
+            Each sticker is a chapter in our story. Each one a mark of pain, hope, or rebellion. Every label is a piece of us, and maybe you. - Luxe Labels {"<"}3
           </div>
         </motion.div>
       </motion.section>
