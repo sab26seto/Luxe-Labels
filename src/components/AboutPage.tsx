@@ -89,9 +89,9 @@ const AboutPage: React.FC = () => {
             again.
           </div>
           <div className="text-base text-darkgray mb-4">
-            Each sticker is a chapter in our story. Each one a mark of pain, hope, or rebellion...
+            Each sticker is a chapter in our story. Each one a mark of pain, hope, or rebellion. Every label is a piece of us, and maybe you.
             <br /><br />
-            AGAINST ALL ODDS. It's us - Luxe Labels {"<"}3
+            AGAINST ALL ODDS. - Luxe Labels {"<"}3
           </div>
         </motion.div>
       </motion.section>

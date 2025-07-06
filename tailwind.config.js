@@ -4,6 +4,13 @@ module.exports = {
     "./public/index.html",
   ],
   theme: {
+    screens: {
+      sm: '1280px',
+      md: '1536px',
+      lg: '2648px',
+      xl: '2560px',
+      '2xl': '3072px',
+    },
     extend: {
       colors: {
         black: '#0a0a0a',
@@ -22,4 +29,4 @@ module.exports = {
     },
   },
   plugins: [],
-}; 
+};

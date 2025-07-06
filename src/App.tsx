@@ -108,10 +108,23 @@ const App: React.FC = () => {
   const [showPromo, setShowPromo] = useState(true);
 
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [priceRange, setPriceRange] = useState<string>("All");
 
-const filteredStickers = activeCategory === "All"
-  ? products
-  : products.filter(products => products.category === activeCategory);
+const filteredStickers = products.filter(product => {
+  const categoryMatch = activeCategory === "All" || product.category === activeCategory;
+  
+  let priceMatch = true;
+  if (priceRange !== "All") {
+    const [min, max] = priceRange.split('-').map(Number);
+    if (max) {
+      priceMatch = product.price >= min && product.price <= max;
+    } else {
+      priceMatch = product.price >= min;
+    }
+  }
+  
+  return categoryMatch && priceMatch;
+});
 
   // State management
   const [selectedProduct, setSelectedProduct] = React.useState<number | null>(null);
@@ -212,7 +225,9 @@ const filteredStickers = activeCategory === "All"
                 <h2 className="text-3xl md:text-4xl font-medium text-black mb-4 tracking-tight">Our Collection</h2>
                 <p className="text-base text-darkgray opacity-70 font-light">Exclusive handcrafted luxury collections for the modern collector</p>
               </motion.div>
-                              <div className="flex gap-4 mb-6">
+                              <div className="flex flex-col gap-4 mb-6 w-full max-w-4xl">
+                {/* Category Filters */}
+                <div className="flex gap-4 justify-center flex-wrap">
                   {["All", "Little Dog", "Minecraft", "Pepe", "Flowers", "Stitch"].map((category) => (
                   <button
                     key={category}
@@ -254,6 +269,31 @@ const filteredStickers = activeCategory === "All"
                     )}
                   </button>
                 ))}
+                </div>
+                
+                {/* Price Filters */}
+                <div className="flex gap-4 justify-center flex-wrap">
+                  {[
+                    { label: "All Prices", value: "All" },
+                    { label: "$0 - $200", value: "0-200" },
+                    { label: "$200 - $400", value: "200-400" },
+                    { label: "$400 - $600", value: "400-600" },
+                    { label: "$600 - $1000", value: "600-1000" },
+                    { label: "$1000+", value: "1000-" }
+                  ].map((range) => (
+                    <button
+                      key={range.value}
+                      onClick={() => setPriceRange(range.value)}
+                      className={`px-4 py-2 rounded-full border transition-all duration-300 ${
+                        priceRange === range.value
+                          ? "bg-gradient-to-r from-gold via-yellow-400 to-gold text-black border-gold shadow-lg shadow-gold/30 font-medium"
+                          : "bg-white text-black border-gray-300 hover:bg-gold/10 hover:border-gold/50"
+                      }`}
+                    >
+                      {range.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
 

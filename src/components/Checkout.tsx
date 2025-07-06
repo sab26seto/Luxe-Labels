@@ -31,13 +31,20 @@ interface CheckoutProps {
 
 const Checkout: React.FC<CheckoutProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, onClearCart }) => {
   const [promoApplied, setPromoApplied] = useState(false);
-  const [step, setStep] = useState<'receipt' | 'payment' | 'loading' | 'success'>('receipt');
+  const [step, setStep] = useState<'receipt' | 'survey' | 'payment' | 'loading' | 'success'>('receipt');
   const [formData, setFormData] = useState({
     email: '',
     cardNumber: '',
     expiryDate: '',
     cvv: '',
     name: ''
+  });
+  const [surveyData, setSurveyData] = useState({
+    satisfaction: '',
+    recommendation: '',
+    feedback: '',
+    ageGroup: '',
+    purchaseFrequency: ''
   });
   const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
   const [loadingTimeout, setLoadingTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -53,6 +60,13 @@ const Checkout: React.FC<CheckoutProps> = ({ isOpen, onClose, items, onUpdateQua
         expiryDate: '',
         cvv: '',
         name: ''
+      });
+      setSurveyData({
+        satisfaction: '',
+        recommendation: '',
+        feedback: '',
+        ageGroup: '',
+        purchaseFrequency: ''
       });
       setFormErrors({});
     }
@@ -154,12 +168,42 @@ const Checkout: React.FC<CheckoutProps> = ({ isOpen, onClose, items, onUpdateQua
     };
   }, [items, isPromoEligible, promoApplied]);
 
+  const handleProceedToSurvey = () => {
+    setStep('survey');
+  };
+
   const handleProceedToPayment = () => {
     setStep('payment');
   };
 
   const handleBackToReceipt = () => {
     setStep('receipt');
+  };
+
+  const handleBackToSurvey = () => {
+    setStep('survey');
+  };
+
+  const getStepNumber = (currentStep: string) => {
+    switch (currentStep) {
+      case 'receipt': return 1;
+      case 'survey': return 2;
+      case 'payment': return 3;
+      case 'loading': return 4;
+      case 'success': return 4;
+      default: return 1;
+    }
+  };
+
+  const getStepTitle = (currentStep: string) => {
+    switch (currentStep) {
+      case 'receipt': return 'Order Review';
+      case 'survey': return 'Customer Survey';
+      case 'payment': return 'Payment';
+      case 'loading': return 'Processing';
+      case 'success': return 'Complete';
+      default: return 'Order Review';
+    }
   };
 
   const validateForm = () => {
@@ -278,7 +322,11 @@ const Checkout: React.FC<CheckoutProps> = ({ isOpen, onClose, items, onUpdateQua
                 >
                   <div className="flex items-center gap-4">
                     <motion.button
-                      onClick={step === 'payment' ? handleBackToReceipt : handleClose}
+                      onClick={
+                        step === 'payment' ? handleBackToSurvey : 
+                        step === 'survey' ? handleBackToReceipt : 
+                        handleClose
+                      }
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       className="w-10 h-10 rounded-full bg-black bg-opacity-10 hover:bg-opacity-20 flex items-center justify-center transition-all duration-300"
@@ -289,16 +337,32 @@ const Checkout: React.FC<CheckoutProps> = ({ isOpen, onClose, items, onUpdateQua
                     </motion.button>
                     <div>
                       <h2 className="text-2xl font-medium text-black tracking-tight">
-                        {step === 'receipt' && 'Order Receipt'}
-                        {step === 'payment' && 'Payment Information'}
-                        {step === 'success' && 'Order Confirmed'}
+                        {getStepTitle(step)}
                       </h2>
                       <p className="text-sm text-darkgray opacity-70">
-                        {step === 'receipt' && `${totalItems} items in your order`}
-                        {step === 'payment' && 'Secure payment processing'}
-                        {step === 'success' && 'Thank you for your purchase'}
+                        Step {getStepNumber(step)} of 4
                       </p>
                     </div>
+                  </div>
+                  
+                  {/* Step Indicator */}
+                  <div className="flex items-center gap-2">
+                    {[1, 2, 3, 4].map((stepNum) => (
+                      <div key={stepNum} className="flex items-center">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
+                          getStepNumber(step) >= stepNum
+                            ? 'bg-gold text-black'
+                            : 'bg-gray-200 text-gray-500'
+                        }`}>
+                          {stepNum}
+                        </div>
+                        {stepNum < 4 && (
+                          <div className={`w-8 h-1 mx-1 transition-all duration-300 ${
+                            getStepNumber(step) > stepNum ? 'bg-gold' : 'bg-gray-200'
+                          }`} />
+                        )}
+                      </div>
+                    ))}
                   </div>
                   <motion.button
                     onClick={handleClose}
@@ -392,6 +456,122 @@ const Checkout: React.FC<CheckoutProps> = ({ isOpen, onClose, items, onUpdateQua
                       )}
                     </motion.div>
                   )}
+                  
+                  {/* Survey Section */}
+                  {step === 'survey' && (
+                    <motion.div 
+                      className="lg:w-2/3 p-8 overflow-y-auto h-full flex flex-col"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2, duration: 0.5, ease: 'easeInOut' }}
+                    >
+                      <div className="max-w-2xl mx-auto flex-1 flex flex-col">
+                        <div className="text-center mb-8">
+                          <h3 className="text-2xl font-bold text-black mb-2">Customer Experience Survey</h3>
+                          <p className="text-sm text-darkgray">Help us improve your shopping experience</p>
+                        </div>
+                        
+                        <div className="space-y-6 flex-1">
+                          {/* Satisfaction Rating */}
+                          <div>
+                            <label className="block text-sm font-medium text-black mb-3">How satisfied are you with our collection?</label>
+                            <div className="flex gap-3 justify-center">
+                              {[1, 2, 3, 4, 5].map((rating) => (
+                                <button
+                                  key={rating}
+                                  onClick={() => setSurveyData({...surveyData, satisfaction: rating.toString()})}
+                                  className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
+                                    surveyData.satisfaction === rating.toString()
+                                      ? 'bg-gold text-black shadow-lg'
+                                      : 'bg-gray-100 text-gray-600 hover:bg-gold/20'
+                                  }`}
+                                >
+                                  {rating}
+                                </button>
+                              ))}
+                            </div>
+                            <div className="flex justify-between text-xs text-gray-500 mt-2">
+                              <span>Not Satisfied</span>
+                              <span>Very Satisfied</span>
+                            </div>
+                          </div>
+
+                          {/* Recommendation */}
+                          <div>
+                            <label className="block text-sm font-medium text-black mb-3">How likely are you to recommend us to a friend?</label>
+                            <div className="grid grid-cols-3 gap-3">
+                              {['Very Likely', 'Somewhat Likely', 'Not Likely'].map((option) => (
+                                <button
+                                  key={option}
+                                  onClick={() => setSurveyData({...surveyData, recommendation: option})}
+                                  className={`py-3 px-4 rounded-xl border transition-all duration-300 ${
+                                    surveyData.recommendation === option
+                                      ? 'bg-gold text-black border-gold'
+                                      : 'bg-white text-black border-gray-300 hover:border-gold/50'
+                                  }`}
+                                >
+                                  {option}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Age Group */}
+                          <div>
+                            <label className="block text-sm font-medium text-black mb-3">What's your age group?</label>
+                            <div className="grid grid-cols-2 gap-3">
+                              {['18-25', '26-35', '36-45', '45+'].map((age) => (
+                                <button
+                                  key={age}
+                                  onClick={() => setSurveyData({...surveyData, ageGroup: age})}
+                                  className={`py-3 px-4 rounded-xl border transition-all duration-300 ${
+                                    surveyData.ageGroup === age
+                                      ? 'bg-gold text-black border-gold'
+                                      : 'bg-white text-black border-gray-300 hover:border-gold/50'
+                                  }`}
+                                >
+                                  {age}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Purchase Frequency */}
+                          <div>
+                            <label className="block text-sm font-medium text-black mb-3">How often do you purchase stickers?</label>
+                            <div className="grid grid-cols-2 gap-3">
+                              {['First Time', 'Occasionally', 'Regularly', 'Collector'].map((freq) => (
+                                <button
+                                  key={freq}
+                                  onClick={() => setSurveyData({...surveyData, purchaseFrequency: freq})}
+                                  className={`py-3 px-4 rounded-xl border transition-all duration-300 ${
+                                    surveyData.purchaseFrequency === freq
+                                      ? 'bg-gold text-black border-gold'
+                                      : 'bg-white text-black border-gray-300 hover:border-gold/50'
+                                  }`}
+                                >
+                                  {freq}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Feedback */}
+                          <div>
+                            <label className="block text-sm font-medium text-black mb-3">Any additional feedback? (Optional)</label>
+                            <textarea
+                              value={surveyData.feedback}
+                              onChange={(e) => setSurveyData({...surveyData, feedback: e.target.value})}
+                              className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-gold transition-all duration-300 resize-none"
+                              rows={3}
+                              placeholder="Share your thoughts about our collection..."
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                  
                   {/* Payment Section */}
                   {step === 'payment' && (
                     <motion.div 
@@ -613,10 +793,21 @@ const Checkout: React.FC<CheckoutProps> = ({ isOpen, onClose, items, onUpdateQua
                       <motion.button
                         whileHover={{ scale: 1.02, backgroundColor: '#fbbf24', color: '#000' }}
                         whileTap={{ scale: 0.98 }}
+                        onClick={handleProceedToSurvey}
+                        className="w-full py-4 bg-black text-white font-medium text-base tracking-wide rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl mt-6"
+                      >
+                        Continue to Survey
+                      </motion.button>
+                    )}
+
+                    {step === 'survey' && (
+                      <motion.button
+                        whileHover={{ scale: 1.02, backgroundColor: '#fbbf24', color: '#000' }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={handleProceedToPayment}
                         className="w-full py-4 bg-black text-white font-medium text-base tracking-wide rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl mt-6"
                       >
-                        Proceed to Payment
+                        Continue to Payment
                       </motion.button>
                     )}
 
